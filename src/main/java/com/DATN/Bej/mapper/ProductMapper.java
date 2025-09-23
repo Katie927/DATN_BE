@@ -1,0 +1,60 @@
+package com.DATN.Bej.mapper;
+
+import com.DATN.Bej.dto.request.productRequest.ProductRequest;
+import com.DATN.Bej.dto.response.productResponse.ProductListResponse;
+import com.DATN.Bej.dto.response.productResponse.ProductResponse;
+import com.DATN.Bej.dto.response.productResponse.VariantSummaryResponse;
+import com.DATN.Bej.entity.product.Product;
+import com.DATN.Bej.entity.product.ProductVariant;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = {ProductVariantMapper.class, VariantSummaryResponse.class})
+public interface ProductMapper {
+//    @Mapping(target = "attributes", ignore = true)
+    @Mapping(target = "image", ignore = true)
+    @Mapping(target = "introImages", ignore = true)
+    Product toProduct(ProductRequest request);
+
+//    @Mapping(source = "status", target = "status")
+    @Mapping(source = "id", target = "id")
+    ProductResponse toProductResponse(Product product);
+    List<ProductResponse> toResponseList(List<Product> products);
+
+
+    @Mapping(target = "variant", expression = "java(firstVariantSummary(product.getVariants()))")
+    ProductListResponse toProductListResponse(Product product);
+    List<ProductListResponse> toListProduct(List<Product> products);
+
+    default VariantSummaryResponse firstVariantSummary(List<ProductVariant> variants){
+        if (variants == null || variants.isEmpty()) {
+            return new VariantSummaryResponse(); // trả về object rỗng
+        }
+        ProductVariant v = variants.getFirst();
+        VariantSummaryResponse summary = new VariantSummaryResponse();
+        if(v != null && v.getDetailImages() != null && !v.getDetailImages().isEmpty())
+            summary.setThumbnail(v.getDetailImages().getFirst().getUrl());
+//        summary.setOriginalPrice(v.getOriginalPrice());
+//        summary.setFinalPrice(v.getFinalPrice());
+        return summary;
+    }
+
+    @Mapping(target = "image", ignore = true)
+    void updateProduct(@MappingTarget Product product, ProductRequest request);
+
+    // Chuyển danh sách ProductAttribute thành danh sách String (chỉ lấy giá trị)
+//    default List<String> mapSpecs(List<ProductAttribute> attributes) {
+//        return attributes != null ?
+//                attributes.stream().map(ProductAttribute::getValue).collect(Collectors.toList())
+//                : null;
+//    }
+//
+//    default  List<String> mapImages(List<ProductImage> images) {
+//        return images != null ?
+//                images.stream().map(ProductImage::getUrl).collect(Collectors.toList())
+//                : null;
+//    }
+}
