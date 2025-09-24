@@ -93,24 +93,33 @@ public class ProductService {
 // add new ----------------------------------------------------------------------------------------
 
 // update new ----------------------------------------------------------------------------------------
-    public ProductResponse updateProduct(String productId, ProductRequest request) throws IOException {
-
-        Product product = productRepository.findById(productId).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        productMapper.updateProduct(product, request);
-
-        System.out.println("update");
-
-        if(request.getImage() != null){
-            String image = saveFile(request.getImage());
-            product.setImage(image);
-        }
-        if(request.getVariants() != null){
-            List<ProductVariant> variants = mpVariants(request.getVariants(), product);
-            product.setVariants(variants);
-        }
-        return productMapper.toProductResponse(productRepository.save(product));
+@Transactional
+public ProductResponse updateProduct(String productId, ProductRequest request) throws IOException {
+    Product product = productRepository.findById(productId).orElseThrow(
+            () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    if(productRepository.existsByName(request.getName())){
+        throw new AppException(ErrorCode.USER_EXISTED);
     }
+    productMapper.updateProduct(product, request);
+    System.out.println("update");
+
+    if(request.getImage() != null){
+        String image = saveFile(request.getImage());
+        product.setImage(image);
+    }
+    if(request.getIntroImages() != null){
+        product.getIntroImages().clear();
+        product.getIntroImages().addAll(mpIntroImages(request.getIntroImages(), product));
+    }
+    if(request.getVariants() != null){
+//            List<ProductVariant> variants = mpVariants(request.getVariants(), product);
+//            product.setVariants(variants);
+        product.getVariants().clear(); // xóa cũ, nếu orphanRemoval = true
+        product.getVariants().addAll(mpVariants(request.getVariants(), product));
+    }
+    System.out.println("last update");
+    return productMapper.toProductResponse(productRepository.save(product));
+}
 // update new ----------------------------------------------------------------------------------------
     //delete
     public void delete(String productId){
