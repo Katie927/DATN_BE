@@ -1,6 +1,7 @@
 package com.DATN.Bej.service;
 
 import com.DATN.Bej.dto.request.productRequest.ProductAttributeRequest;
+import com.DATN.Bej.dto.request.productRequest.ProductImageRequest;
 import com.DATN.Bej.dto.request.productRequest.ProductRequest;
 import com.DATN.Bej.dto.request.productRequest.ProductVariantRequest;
 import com.DATN.Bej.dto.response.productResponse.ProductListResponse;
@@ -30,6 +31,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -92,7 +95,7 @@ public class ProductService {
     }
 // add new ----------------------------------------------------------------------------------------
 
-// update new ----------------------------------------------------------------------------------------
+// update  ----------------------------------------------------------------------------------------
 @Transactional
 public ProductResponse updateProduct(String productId, ProductRequest request) throws IOException {
     Product product = productRepository.findById(productId).orElseThrow(
@@ -100,25 +103,196 @@ public ProductResponse updateProduct(String productId, ProductRequest request) t
     if(productRepository.existsByName(request.getName())){
         throw new AppException(ErrorCode.USER_EXISTED);
     }
-    productMapper.updateProduct(product, request);
-    System.out.println("update");
 
     if(request.getImage() != null){
         String image = saveFile(request.getImage());
         product.setImage(image);
     }
     if(request.getIntroImages() != null){
-        product.getIntroImages().clear();
-        product.getIntroImages().addAll(mpIntroImages(request.getIntroImages(), product));
+        List<ProductImage> updatedImages = new ArrayList<>();
+        for(int i = 0; i < request.getIntroImages().size() ; i++){
+            ProductImageRequest imgReq = request.getIntroImages().get(i);
+            if(imgReq.getId() != null){
+                ProductImage existing = product.getIntroImages().stream()
+                        .filter(img -> img.getId().equals(imgReq.getId()))
+                        .findFirst()
+                        .orElse(null);
+                if (existing != null) {
+                    if (imgReq.getFile() != null) {
+                        existing.setUrl(saveFile(imgReq.getFile()));
+                    }
+                    updatedImages.add(existing);
+                } else if (imgReq.getFile() != null) {
+                    // ảnh mới
+                    ProductImage newImg = mpImage(imgReq.getFile());
+                    newImg.setProduct(product);
+                    updatedImages.add(newImg);
+                }
+            }
+            updatedImages.sort(Comparator.comparingInt(img -> {
+                ProductImageRequest req = request.getIntroImages().stream()
+                        .filter(r -> r.getId() != null && r.getId().equals(img.getId()))
+                        .findFirst()
+                        .map(ProductImageRequest::getSortIndex)
+                        .orElse(Integer.MAX_VALUE);
+                return req;
+            }));
+
+            product.getIntroImages().clear();
+            product.getIntroImages().addAll(updatedImages);
+        }
+        if (request.getVariants() != null) {
+            List<ProductVariant> updatedVariants = new ArrayList<>();
+
+            for (ProductVariantRequest vReq : request.getVariants()) {
+                ProductVariant variant;
+
+                if (vReq.getId() != null) {
+                    variant = product.getVariants().stream()
+                            .filter(v -> v.getId().equals(vReq.getId()))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (variant == null) {
+                        variant = new ProductVariant();
+                        variant.setProduct(product);
+                    }
+                } else {
+                    variant = new ProductVariant();
+                    variant.setProduct(product);
+                }
+
+                variant.setColor(vReq.getColor());
+
+                // detail images
+                if (vReq.getDetailImages() != null) {
+                    List<ProductImage> updatedDetailImages = new ArrayList<>();
+
+                    for (MultipartFile file : vReq.getDetailImages()) {
+                        if (file != null) {
+                            ProductImage newImg = mpImage(file);
+                            newImg.setVariant(variant);
+                            updatedDetailImages.add(newImg);
+                        }
+                    }
+
+                    variant.getDetailImages().clear();
+                    variant.getDetailImages().addAll(updatedDetailImages);
+                }
+
+                // attributes
+                if (vReq.getAttributes() != null) {
+                    List<ProductAttribute> updatedAttrs = new ArrayList<>();
+
+                    for (ProductAttributeRequest aReq : vReq.getAttributes()) {
+                        ProductAttribute attr;
+
+                        if (aReq.getId() != null) {
+                            attr = variant.getAttributes().stream()
+                                    .filter(a -> a.getId().equals(aReq.getId()))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if (attr == null) {
+                                attr = new ProductAttribute();
+                                attr.setVariant(variant);
+                            }
+                        } else {
+                            attr = new ProductAttribute();
+                            attr.setVariant(variant);
+                        }
+
+                        attr.setName(aReq.getName());
+                        attr.setOriginalPrice(aReq.getOriginalPrice());
+                        attr.setFinalPrice(aReq.getFinalPrice());
+                        attr.setDiscount(aReq.getDiscount());
+                        attr.setStockQuantity(aReq.getStockQuantity());
+                        attr.setSoldQuantity(aReq.getSoldQuantity());
+
+                        updatedAttrs.add(attr);
+                    }
+
+                    variant.getAttributes().clear();
+                    variant.getAttributes().addAll(updatedAttrs);
+                }
+
+                updatedVariants.add(variant);
+            }
+
+            product.getVariants().clear();
+            product.getVariants().addAll(updatedVariants);
+        }
+        return productMapper.toProductResponse(productRepository.save(product));
     }
-    if(request.getVariants() != null){
-//            List<ProductVariant> variants = mpVariants(request.getVariants(), product);
-//            product.setVariants(variants);
-        product.getVariants().clear(); // xóa cũ, nếu orphanRemoval = true
-        product.getVariants().addAll(mpVariants(request.getVariants(), product));
+
+    if (request.getVariants() != null){
+        List<ProductVariant> updatedVariants = new ArrayList<>();
+        for (ProductVariantRequest vReq : request.getVariants()){
+            ProductVariant variant = null;
+            if (vReq.getId() != null) {
+                // tìm variant cũ
+                variant = product.getVariants().stream()
+                        .filter(v -> v.getId().equals(vReq.getId()))
+                        .findFirst()
+                        .orElse(null);
+            }
+            if (variant == null) {
+                variant = new ProductVariant();
+                variant.setProduct(product);
+            }
+            variant.setColor(vReq.getColor());
+            if(vReq.getDetailImages() != null){
+                List<ProductImage> updatedDetailImages = new ArrayList<>();
+                for (ProductImageRequest dImgReq : vReq.getDetailImages()){
+                    if(dImgReq.getId() != null){
+                        ProductImage existing = variant.getDetailImages().stream()
+                                .filter(di -> di.getId().equals(dImgReq.getId()))
+                                .findFirst()
+                                .orElse(null);
+                        if(existing != null){
+                            existing.setSortIndex(dImgReq.getSortIndex());
+                            updatedDetailImages.add(existing);
+                        }
+                    } else if (dImgReq.getFile() != null) {
+                        ProductImage newImg = mpImage(dImgReq.getFile());
+                        newImg.setVariant(variant);
+                        newImg.setSortIndex(dImgReq.getSortIndex());
+                        updatedDetailImages.add(newImg);
+                    }
+                }
+                variant.setDetailImages(updatedDetailImages);
+            }
+            if(vReq.getAttributes() != null){
+                List<ProductAttribute> updatedAttributes = new ArrayList<>();
+                for(ProductAttributeRequest aReq : vReq.getAttributes()){
+                    ProductAttribute attribute = null;
+                    if(aReq.getId() != null){
+                        attribute = variant.getAttributes().stream()
+                                .filter(a -> a.getId().equals(aReq.getId()))
+                                .findFirst()
+                                .orElse(null);
+                    }
+                    if(attribute == null){
+                        attribute = new ProductAttribute();
+                        attribute.setVariant(variant);
+                    }
+                    attribute.setName(aReq.getName());
+                    attribute.setOriginalPrice(aReq.getOriginalPrice());
+                    attribute.setFinalPrice(aReq.getFinalPrice());
+                    attribute.setDiscount(aReq.getDiscount());
+                    attribute.setStockQuantity(aReq.getStockQuantity());
+                    attribute.setSoldQuantity(aReq.getSoldQuantity());
+
+                    updatedAttributes.add(attribute);
+                }
+                variant.setAttributes(updatedAttributes);
+            }
+            updatedVariants.add(variant);
+        }
+        product.setVariants(updatedVariants);
     }
-    System.out.println("last update");
-    return productMapper.toProductResponse(productRepository.save(product));
+    Product saved = productRepository.save(product);
+    return productMapper.toProductResponse(saved);
 }
 // update new ----------------------------------------------------------------------------------------
     //delete
@@ -167,18 +341,18 @@ public ProductResponse updateProduct(String productId, ProductRequest request) t
         }
         return img;
     }
-    private List<ProductImage> mpDetailImages(List<MultipartFile> files, ProductVariant variant){
+    private List<ProductImage> mpDetailImages(List<ProductImageRequest> files, ProductVariant variant){
         return files.stream()
                 .map(file -> {
-                    ProductImage img = mpImage(file);
+                    ProductImage img = mpImage(file.getFile());
                     img.setVariant(variant);
                     return img;
                 }).toList();
     }
-    private List<ProductImage> mpIntroImages(List<MultipartFile> files, Product product){
+    private List<ProductImage> mpIntroImages(List<ProductImageRequest> files, Product product){
         return files.stream()
                 .map(file -> {
-                    ProductImage img = mpImage(file);
+                    ProductImage img = mpImage(file.getFile());
                     img.setProduct(product);
                     return img;
                 }).toList();

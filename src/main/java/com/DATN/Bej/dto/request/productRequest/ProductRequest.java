@@ -20,7 +20,7 @@ public class ProductRequest {
 
     int status;
 
-    List<MultipartFile> introImages;
+    List<ProductImageRequest> introImages;
     List<ProductVariantRequest> variants;
 
 //    List<String> attributes;
