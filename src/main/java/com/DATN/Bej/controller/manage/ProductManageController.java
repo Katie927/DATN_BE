@@ -36,12 +36,12 @@ public class ProductManageController {
                 .build();
     }
 //
-    @PutMapping("/update/{productId}")
-    ApiResponse<ProductResponse> updateProduct(@PathVariable String productId, @ModelAttribute ProductRequest request) throws IOException {
-        return ApiResponse.<ProductResponse>builder()
-                .result(productService.updateProduct(productId, request))
-                .build();
-    }
+//    @PutMapping("/update/{productId}")
+//    ApiResponse<ProductResponse> updateProduct(@PathVariable String productId, @ModelAttribute ProductRequest request) throws IOException {
+//        return ApiResponse.<ProductResponse>builder()
+//                .result(productService.updateProduct(productId, request))
+//                .build();
+//    }
 
 //
     @PostMapping("/add")
