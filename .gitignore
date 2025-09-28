@@ -32,5 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-application.yaml
 /src/main/java/com/DATN/Bej/entity/product/adu.txt
