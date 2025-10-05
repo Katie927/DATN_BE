@@ -29,7 +29,7 @@ public class CategoryManageController {
     }
 
     @PostMapping("/add")
-    ApiResponse<CategoryResponse> addNewCategory(@RequestBody @Valid CategoryRequest request) throws IOException {
+    ApiResponse<CategoryResponse> addNewCategory(@ModelAttribute @Valid CategoryRequest request) throws IOException {
         ApiResponse<CategoryResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(categoryService.addNewCategory(request));
 

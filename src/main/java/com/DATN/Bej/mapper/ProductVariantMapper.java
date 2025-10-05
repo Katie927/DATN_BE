@@ -16,7 +16,7 @@ public interface ProductVariantMapper {
     @Mapping(target = "detailImages", ignore = true)
     ProductVariant toVariant(ProductVariantRequest request);
 
-//    @Mapping(source = "id", target = "id")
+    //    @Mapping(source = "id", target = "id")
     @Mapping(source = "color", target = "color")
     @Mapping(source = "attributes", target = "attributes")
     ProductVariantResponse toVariantResponse(ProductVariant variant);

@@ -33,7 +33,5 @@ public class ProductAttribute {
     @JoinColumn(name = "variant_id")
     ProductVariant variant;
 
-//    @OneToMany(mappedBy = "variant_id", cascade = CascadeType.ALL, orphanRemoval = true)
-//    List<ProductVariant> values = new ArrayList<>();
-
 }
+

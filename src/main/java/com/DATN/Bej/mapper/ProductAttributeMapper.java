@@ -15,5 +15,4 @@ public interface ProductAttributeMapper {
     ProductAttributeResponse toProductAttributeResponse(ProductAttribute attribute);
     List<ProductAttributeResponse> toAttributeList(List<ProductAttribute> attributes);
 
-
 }

@@ -15,7 +15,7 @@ public class ProductVariantResponse {
     String id;
     String color;
 
-    List<String> detailImages;
+    List<ProductImageResponse> detailImages;
     List<ProductAttributeResponse> attributes;
 
 }

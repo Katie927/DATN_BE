@@ -17,6 +17,6 @@ public class ProductVariantRequest {
     String color;
 
     List<ProductImageRequest> detailImages;
-
     List<ProductAttributeRequest> attributes;
+
 }

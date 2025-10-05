@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface CategoryMapper {
 
+    @Mapping(target = "products", ignore = true)
     Category toCategory(CategoryRequest request);
 
     @Mapping(source = "id", target = "id")

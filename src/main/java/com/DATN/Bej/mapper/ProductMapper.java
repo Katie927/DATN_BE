@@ -6,20 +6,18 @@ import com.DATN.Bej.dto.response.productResponse.ProductResponse;
 import com.DATN.Bej.dto.response.productResponse.VariantSummaryResponse;
 import com.DATN.Bej.entity.product.Product;
 import com.DATN.Bej.entity.product.ProductVariant;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ProductVariantMapper.class, VariantSummaryResponse.class})
 public interface ProductMapper {
-//    @Mapping(target = "attributes", ignore = true)
+    //    @Mapping(target = "attributes", ignore = true)
     @Mapping(target = "image", ignore = true)
     @Mapping(target = "introImages", ignore = true)
     Product toProduct(ProductRequest request);
 
-//    @Mapping(source = "status", target = "status")
+    //    @Mapping(source = "status", target = "status")
     @Mapping(source = "id", target = "id")
     ProductResponse toProductResponse(Product product);
     List<ProductResponse> toResponseList(List<Product> products);
@@ -43,6 +41,10 @@ public interface ProductMapper {
     }
 
     @Mapping(target = "image", ignore = true)
+    @Mapping(target = "variants", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "introImages", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateProduct(@MappingTarget Product product, ProductRequest request);
 
     // Chuyển danh sách ProductAttribute thành danh sách String (chỉ lấy giá trị)

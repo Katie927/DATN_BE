@@ -25,3 +25,4 @@ public class ProductImage {
     Product product;
 
 }
+

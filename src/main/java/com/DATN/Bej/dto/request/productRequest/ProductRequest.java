@@ -23,5 +23,5 @@ public class ProductRequest {
     List<ProductImageRequest> introImages;
     List<ProductVariantRequest> variants;
 
-//    List<String> attributes;
+    CategoryRequest category;
 }

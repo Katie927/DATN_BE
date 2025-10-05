@@ -8,17 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductAttributeResponse {
+public class ProductImageResponse {
 
     String id;
-    String name;
-//    String value;
-
-    int originalPrice;
-    int finalPrice;
-    int discount;
-
-    int stockQuantity;
-    int soldQuantity;
+    String url;
 
 }

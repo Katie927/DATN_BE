@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +20,7 @@ public class Product {
     private String id;
 
     String name;
+    String pSku;
     String description;
     LocalDate createDate;
 
@@ -33,9 +33,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderColumn(name = "sort_index")
-    List<ProductVariant> variants = new ArrayList<>();
+    List<ProductVariant> variants;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Category category;
 

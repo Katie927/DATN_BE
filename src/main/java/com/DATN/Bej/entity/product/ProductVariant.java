@@ -19,14 +19,6 @@ public class ProductVariant {
 
     String sku; // ma san pham
     String color;
-//    String image;
-
-//    int originalPrice;
-//    int finalPrice;
-//    int discount;
-//
-//    int stockQuantity;
-//    int soldQuantity;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -39,3 +31,4 @@ public class ProductVariant {
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ProductAttribute> attributes;
 }
+

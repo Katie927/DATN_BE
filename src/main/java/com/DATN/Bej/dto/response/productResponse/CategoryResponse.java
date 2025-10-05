@@ -12,5 +12,6 @@ public class CategoryResponse {
 
     String id;
     String name;
+    String sku;
 
 }

@@ -35,17 +35,19 @@ public class ProductManageController {
                 .result(productService.getProductDetails(productId))
                 .build();
     }
-//
-//    @PutMapping("/update/{productId}")
-//    ApiResponse<ProductResponse> updateProduct(@PathVariable String productId, @ModelAttribute ProductRequest request) throws IOException {
-//        return ApiResponse.<ProductResponse>builder()
-//                .result(productService.updateProduct(productId, request))
-//                .build();
-//    }
+    //
+    @PutMapping("/update/{productId}")
+    ApiResponse<ProductResponse> updateProduct(@PathVariable String productId, @ModelAttribute ProductRequest request) throws IOException {
+        return ApiResponse.<ProductResponse>builder()
+                .result(productService.updateProduct(productId, request))
+                .build();
+    }
 
-//
+    //
     @PostMapping("/add")
     ApiResponse<ProductResponse> addNewProduct(@ModelAttribute @Valid ProductRequest request) throws IOException {
+        System.out.println("product add");
+
         ApiResponse<ProductResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(productService.addNewProduct(request));
 
