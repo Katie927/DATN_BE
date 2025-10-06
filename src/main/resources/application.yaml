@@ -2,6 +2,7 @@
 ##spring.application.name=identity-service
 server:
   port: 8080
+  address: 0.0.0.0
   servlet:
     context-path: /bej3
 
