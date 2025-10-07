@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryRequest {
 
-    String id;
+    Long id;
     String name;
     String sku;
 
