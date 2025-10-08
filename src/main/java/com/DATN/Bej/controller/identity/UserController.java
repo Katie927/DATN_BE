@@ -32,17 +32,6 @@ public class UserController {
         return apiResponse;
     }
 
-    @GetMapping
-    ApiResponse<List<UserResponse>> getUsers(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Username: {}", authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
-
-        return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getUsers())
-                .build();
-    }
-
 //    @GetMapping("/profile/{userId}")
 //    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId){
 //        return ApiResponse.<UserResponse>builder()

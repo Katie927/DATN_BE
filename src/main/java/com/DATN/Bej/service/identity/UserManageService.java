@@ -35,6 +35,12 @@ public class UserManageService {
 //    RoleMapper roleMapper;
 
     @PreAuthorize("hasRole('ADMIN')")
+    public List<UserResponse> getUsers(){
+        log.info("in method GET /users");
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse updateUser(String userId, UserUpdateRequest request){
 
         User user = userRepository.findById(userId)
@@ -57,4 +63,5 @@ public class UserManageService {
     }
 
 }
+
 

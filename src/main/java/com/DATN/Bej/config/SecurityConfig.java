@@ -32,7 +32,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request ->
                 request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
+                        .requestMatchers("/manage/users/**").hasAuthority("MANAGE_STAFF")
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                         );
