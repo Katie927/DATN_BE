@@ -32,31 +32,20 @@ public class UserController {
         return apiResponse;
     }
 
-    @GetMapping
-    ApiResponse<List<UserResponse>> getUsers(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Username: {}", authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+//    @GetMapping("/profile/{userId}")
+//    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId){
+//        return ApiResponse.<UserResponse>builder()
+//                .result(userService.getUser(userId))
+//                .build();
+//    }
 
-        return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getUsers())
-                .build();
-    }
-
-    @GetMapping("/profile/{userId}")
-    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId){
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getUser(userId))
-                .build();
-    }
-
-    @PutMapping("/profile/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
-//        System.out.println("Request Data: " + request);
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.updateUser(userId, request))
-                .build();
-    }
+//    @PutMapping("/profile/{userId}")
+//    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
+////        System.out.println("Request Data: " + request);
+//        return ApiResponse.<UserResponse>builder()
+//                .result(userService.updateUser(userId, request))
+//                .build();
+//    }
 
     @GetMapping("/profile/my-info")
     ApiResponse<UserResponse> getMyInfo(){

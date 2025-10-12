@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("/permissions")
+@RequestMapping("/admin/permissions")
 @Slf4j
 public class PermissionController {
 

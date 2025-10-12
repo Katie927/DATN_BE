@@ -7,7 +7,6 @@ import com.DATN.Bej.entity.identity.Role;
 import com.DATN.Bej.entity.identity.User;
 import com.DATN.Bej.exception.AppException;
 import com.DATN.Bej.exception.ErrorCode;
-import com.DATN.Bej.mapper.RoleMapper;
 import com.DATN.Bej.mapper.UserMapper;
 import com.DATN.Bej.repository.RoleRepository;
 import com.DATN.Bej.repository.UserRepository;
@@ -32,9 +31,9 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
-    RoleMapper roleMapper;
+//    RoleMapper roleMapper;
 
-// create User
+    // create User
     public UserResponse createUser(UserCreationRequest request){
 
         if (userRepository.existsByEmail(request.getEmail())){
@@ -52,18 +51,6 @@ public class UserService {
         user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
-    }
-// get all users
-//    @PreAuthorize("hasAuthority('permissions')")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<UserResponse> getUsers(){
-        log.info("in method GET /users");
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
-    }
-
-    public UserResponse getUser(String userId){
-        return userMapper.toUserResponse(userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User Not Found!")));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -102,3 +89,4 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 }
+

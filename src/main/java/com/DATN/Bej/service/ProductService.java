@@ -62,7 +62,7 @@ public class ProductService {
 
     //    admin service
     // admin get
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public List<ProductListResponse> getAllProducts(){
         return productRepository.findAllByOrderByCreateDateDesc().stream().map(productMapper::toProductListResponse).toList();
     }
