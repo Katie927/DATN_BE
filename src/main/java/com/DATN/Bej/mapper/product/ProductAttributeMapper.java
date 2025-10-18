@@ -1,4 +1,4 @@
-package com.DATN.Bej.mapper;
+package com.DATN.Bej.mapper.product;
 
 import com.DATN.Bej.dto.request.productRequest.ProductAttributeRequest;
 import com.DATN.Bej.dto.response.productResponse.ProductAttributeResponse;
