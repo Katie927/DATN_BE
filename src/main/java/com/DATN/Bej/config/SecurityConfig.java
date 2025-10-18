@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
                         .requestMatchers("/manage/users/**").hasAuthority("MANAGE_STAFF")
                         .requestMatchers("/images/**").permitAll()
-                        .anyRequest().authenticated()
+                        //.requestMatchers("/payment/**").permitAll()
+                        //.anyRequest().authenticated()
                         );
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
