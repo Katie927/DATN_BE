@@ -15,8 +15,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableMethodSecurity
-@EnableWebSecurity
+//@EnableMethodSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
@@ -25,6 +25,15 @@ public class SecurityConfig {
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
+
+//     @Bean
+//     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//         http.csrf(AbstractHttpConfigurer::disable)
+//             .authorizeHttpRequests(auth -> auth
+//                 .anyRequest().permitAll()
+//             );
+//         return http.build();
+//     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,8 +45,8 @@ public class SecurityConfig {
                         .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
                         .requestMatchers("/manage/users/**").hasAuthority("MANAGE_STAFF")
                         .requestMatchers("/images/**").permitAll()
-                        //.requestMatchers("/payment/**").permitAll()
-                        //.anyRequest().authenticated()
+                        .requestMatchers("/payment/**").permitAll()
+                        .anyRequest().authenticated()
                         );
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
@@ -51,6 +60,8 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+
+
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter(){
