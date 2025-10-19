@@ -1,6 +1,7 @@
 package com.DATN.Bej.mapper.product;
 
 import com.DATN.Bej.dto.request.productRequest.ProductVariantRequest;
+import com.DATN.Bej.dto.response.guest.ProductVariantRes;
 import com.DATN.Bej.dto.response.productResponse.ProductVariantResponse;
 import com.DATN.Bej.entity.product.ProductImage;
 import com.DATN.Bej.entity.product.ProductVariant;
@@ -20,6 +21,7 @@ public interface ProductVariantMapper {
     @Mapping(source = "color", target = "color")
     @Mapping(source = "attributes", target = "attributes")
     ProductVariantResponse toVariantResponse(ProductVariant variant);
+    ProductVariantRes toVariantDetailRes(ProductVariant variant);
 
     List<ProductVariantResponse> toVariantResponseList(List<ProductVariant> variants);
 

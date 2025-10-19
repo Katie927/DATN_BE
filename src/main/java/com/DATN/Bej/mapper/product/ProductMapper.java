@@ -1,6 +1,7 @@
 package com.DATN.Bej.mapper.product;
 
 import com.DATN.Bej.dto.request.productRequest.ProductRequest;
+import com.DATN.Bej.dto.response.guest.ProductDetailRes;
 import com.DATN.Bej.dto.response.productResponse.ProductListResponse;
 import com.DATN.Bej.dto.response.productResponse.ProductResponse;
 import com.DATN.Bej.dto.response.productResponse.VariantSummaryResponse;
@@ -20,6 +21,7 @@ public interface ProductMapper {
     //    @Mapping(source = "status", target = "status")
     @Mapping(source = "id", target = "id")
     ProductResponse toProductResponse(Product product);
+    ProductDetailRes toProductDetailResponse(Product product);
     List<ProductResponse> toResponseList(List<Product> products);
 
 
@@ -33,10 +35,12 @@ public interface ProductMapper {
         }
         ProductVariant v = variants.getFirst();
         VariantSummaryResponse summary = new VariantSummaryResponse();
-        if(v != null && v.getDetailImages() != null && !v.getDetailImages().isEmpty())
-            summary.setThumbnail(v.getDetailImages().getFirst().getUrl());
-//        summary.setOriginalPrice(v.getOriginalPrice());
-//        summary.setFinalPrice(v.getFinalPrice());
+        if(v != null && v.getDetailImages() != null && !v.getDetailImages().isEmpty()){
+            summary.setOriginalPrice(v.getAttributes().getFirst().getOriginalPrice());
+            summary.setFinalPrice(v.getAttributes().getFirst().getFinalPrice());
+        }
+//            summary.setThumbnail(v.getDetailImages().getFirst().getUrl());
+
         return summary;
     }
 
@@ -60,3 +64,4 @@ public interface ProductMapper {
 //                : null;
 //    }
 }
+
