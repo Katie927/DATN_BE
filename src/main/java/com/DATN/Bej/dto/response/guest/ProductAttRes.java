@@ -9,9 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductAttRes {
+    String id;
     String name;
 
-    int originalPrice;
-    int finalPrice;
-    int discount;
+    double originalPrice;
+    double finalPrice;
+    double discount;
 }

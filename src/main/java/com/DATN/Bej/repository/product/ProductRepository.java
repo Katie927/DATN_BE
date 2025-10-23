@@ -1,4 +1,4 @@
-package com.DATN.Bej.repository;
+package com.DATN.Bej.repository.product;
 
 import com.DATN.Bej.entity.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

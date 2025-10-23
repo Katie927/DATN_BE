@@ -6,7 +6,7 @@ import com.DATN.Bej.entity.product.Category;
 import com.DATN.Bej.exception.AppException;
 import com.DATN.Bej.exception.ErrorCode;
 import com.DATN.Bej.mapper.product.CategoryMapper;
-import com.DATN.Bej.repository.CategoryRepository;
+import com.DATN.Bej.repository.product.CategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

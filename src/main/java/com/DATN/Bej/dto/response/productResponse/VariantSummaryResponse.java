@@ -10,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VariantSummaryResponse {
 
-    int originalPrice;
-    int finalPrice;
+    double originalPrice;
+    double finalPrice;
     String thumbnail;
 
 }

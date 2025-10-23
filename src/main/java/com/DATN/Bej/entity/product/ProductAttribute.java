@@ -20,9 +20,9 @@ public class ProductAttribute {
     String name;
 //    String value;
 
-    int originalPrice;
-    int finalPrice;
-    int discount = 0;
+    double originalPrice;
+    double finalPrice;
+    double discount = 0;
 
     int stockQuantity = 0;
     int soldQuantity = 0;

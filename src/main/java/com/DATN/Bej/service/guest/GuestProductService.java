@@ -4,7 +4,7 @@ import com.DATN.Bej.dto.response.guest.ProductDetailRes;
 import com.DATN.Bej.exception.AppException;
 import com.DATN.Bej.exception.ErrorCode;
 import com.DATN.Bej.mapper.product.ProductMapper;
-import com.DATN.Bej.repository.ProductRepository;
+import com.DATN.Bej.repository.product.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

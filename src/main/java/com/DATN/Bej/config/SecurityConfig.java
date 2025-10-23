@@ -40,23 +40,18 @@ public class SecurityConfig {
         httpSecurity
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request ->
-                request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                                request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
-                        .requestMatchers("/manage/users/**").hasAuthority("MANAGE_STAFF")
-                        .requestMatchers("/images/**").permitAll()
-<<<<<<< HEAD
-                        .anyRequest().permitAll()
-=======
-                        .requestMatchers("/payment/**").permitAll()
-                        .anyRequest().authenticated()
->>>>>>> 23bf38fb50f4720bd11754a7fb183d056402cdd3
-                        );
+                                        .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
+                                        .requestMatchers("/manage/users/**", "/manage/schedule/**").hasAuthority("MANAGE_STAFF")
+                                        .requestMatchers("/images/**").permitAll()
+                                        .anyRequest().permitAll()
+                );
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(customJwtDecoder)
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                                jwtConfigurer.decoder(customJwtDecoder)
+                                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

@@ -13,11 +13,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDetailRes {
 
+    String id;
     String name;
     String image;
 
     int status;
-    LocalDate createDate;
 
     List<ProductImgRes> introImages;
     List<ProductVariantRes> variants;
