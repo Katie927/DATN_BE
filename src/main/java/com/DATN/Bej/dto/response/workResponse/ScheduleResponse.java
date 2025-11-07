@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class ScheduleResponse {
 
     String shiftName;
-    String userName;
+    List<String> userName;
     LocalDate workDate;
 
 }

@@ -21,7 +21,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -43,15 +45,14 @@ public class ScheduleService {
 
     public ScheduleResponse addWorkSchedule(ScheduleAddRequest request){
         log.info("Add Schedule");
-        log.info(request.getUserId());
+        log.info(request.getUserId().getFirst());
         WorkSchedule schedule = scheduleMapper.toSchedule(request);
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        schedule.setUser(user);
+        Set<User> users = new HashSet<>(userRepository.findAllById(request.getUserId()));
+        schedule.setUsers(users);
         Shift shift = shiftRepository.findById(request.getShiftId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         schedule.setShift(shift);
-        log.info(schedule.getUser().getFullName());
+//        log.info(schedule.getUser().getFullName());
         log.info(schedule.getShift().getName());
         return scheduleMapper.toScheduleResponse(scheduleRepository.save(schedule));
     }
