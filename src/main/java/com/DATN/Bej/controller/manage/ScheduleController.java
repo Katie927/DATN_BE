@@ -22,7 +22,7 @@ public class ScheduleController {
 
     ScheduleService scheduleService;
 
-    @GetMapping
+    @PostMapping("/monthly")
     ApiResponse<List<ScheduleResponse>> getScheduleMonthly(@RequestBody ScheduleGetRequest request){
         return ApiResponse.<List<ScheduleResponse>>builder()
                 .result(scheduleService.getScheduleMonthly(request))

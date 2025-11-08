@@ -51,6 +51,7 @@ public class CartService {
             cartItem.setQuantity(1);
             cartItem.setPrice(productA.getFinalPrice());
             cartItem.setProductName(productA.getVariant().getProduct().getName());
+            cartItem.setImg(productA.getVariant().getDetailImages().getFirst().getUrl());
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
         }
