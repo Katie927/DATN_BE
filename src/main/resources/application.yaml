@@ -27,5 +27,12 @@ spring:
       allowed-headers: "*"
       allow-credentials: true
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+      
+
 jwt:
   signerKey: "7bZydhCMPlM7eKuKjxy1gIhbtMo7hTPNvYJr2FguJZtvxpeQ21K3MjP90WjNtYLO"
