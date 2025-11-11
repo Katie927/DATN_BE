@@ -8,11 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartItemResponse {
-
-    String id;
-
-    String attId;
+public class OrderItemResponse {
 
     String img;
 

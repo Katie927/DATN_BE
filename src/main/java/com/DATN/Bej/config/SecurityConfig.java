@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                                 request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                                        .requestMatchers("/manage/product/**", "/manage/category/**").hasAuthority("MANAGE_PRODUCT")
+                                        .requestMatchers("/manage/product/**", "/manage/category/**", "/manage/orders/**").hasAuthority("MANAGE_PRODUCT")
                                         .requestMatchers("/manage/users/**", "/manage/schedule/**").hasAuthority("MANAGE_STAFF")
                                         .requestMatchers("/images/**").permitAll()
                                         .anyRequest().permitAll()

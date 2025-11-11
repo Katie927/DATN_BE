@@ -63,7 +63,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request){
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        var user = userRepository.findByEmail(request.getEmail())
+        var user = userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -114,7 +114,7 @@ public class AuthenticationService {
         JWSHeader header =  new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getEmail())
+                .subject(user.getPhoneNumber())
                 .issuer("aduvjp.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(

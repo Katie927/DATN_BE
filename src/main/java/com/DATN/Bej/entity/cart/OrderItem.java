@@ -1,6 +1,7 @@
 package com.DATN.Bej.entity.cart;
 
 import com.DATN.Bej.entity.product.Product;
+import com.DATN.Bej.entity.product.ProductAttribute;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,9 +22,9 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     Orders order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    Product product;
+    @ManyToOne
+    @JoinColumn(name = "attribute_id")
+    ProductAttribute productA;
 
     int quantity;
 

@@ -8,18 +8,16 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartItemResponse {
+public class OrdersResponse {
 
     String id;
 
-    String attId;
+    String userName;
+    String address;
 
-    String img;
+    int status;
+    int type;
 
-    String productAttName;
-    int quantity;
-    double price;
-    String color;
-    String productName;
+    double totalPrice;
 
 }

@@ -1,4 +1,4 @@
-package com.DATN.Bej.dto.request.identityRequest;
+package com.DATN.Bej.dto.request.cartRequest;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
-    String phoneNumber;
-    String password;
+public class OrderItemRequest {
+
+    String productAttId;
+    String cartItemId;
+
+    int quantity;
 }

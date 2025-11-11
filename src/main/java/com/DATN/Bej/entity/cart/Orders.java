@@ -26,13 +26,18 @@ public class Orders {
     User user;
 
     String phoneNumber;
+    String email;
     String address;
     LocalDate updatedAt;
     LocalDate orderAt;
 
-    double totalPrice;
+    String description;
 
+    double totalPrice;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     List<OrderItem> orderItems = new ArrayList<>();
+
+    int type;
+    int status;
 
 }

@@ -36,7 +36,7 @@ public class UserService {
     // create User
     public UserResponse createUser(UserCreationRequest request){
 
-        if (userRepository.existsByEmail(request.getEmail())){
+        if (userRepository.existsByPhoneNumber(request.getPhoneNumber())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
@@ -70,7 +70,7 @@ public class UserService {
         System.out.println("Update my info");
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
-        User user = userRepository.findByEmail(name).orElseThrow(
+        User user = userRepository.findByPhoneNumber(name).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED));;
         userMapper.updateUser(user, request);
         if(request.getPassword() != null){
@@ -84,7 +84,7 @@ public class UserService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        User user = userRepository.findByEmail(name).orElseThrow(
+        User user = userRepository.findByPhoneNumber(name).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return userMapper.toUserResponse(user);
     }
