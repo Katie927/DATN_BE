@@ -29,17 +29,13 @@ public class NotificationService {
 
     private static final String USER_QUEUE = "/queue/notifications";
 
-    /**
-     * Tạo, LƯU và GỬI thông báo bằng userId.
-     */
+
     @Transactional
     public void createAndSendPersonalNotification(String userId, ApiNotificationRequest request) {
-        
-        // Bước 1: Vẫn cần tra cứu User để lưu vào DB
+
         User recipient = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-        // Bước 2: Tạo và Lưu Entity
         Notification notification = Notification.builder()
                 .recipient(recipient)
                 .type(request.type())
@@ -48,10 +44,8 @@ public class NotificationService {
                 .isRead(false)
                 .resourceId(request.metadata() != null ? request.metadata().values().stream().findFirst().orElse(null) : null)
                 .build();
-        notificationRepository.save(notification); // @PrePersist sẽ set createdAt
+        notificationRepository.save(notification); 
 
-        // Bước 3: Gửi Payload qua WebSocket
-        // Gửi thẳng bằng userId, vì chúng ta giả định Principal.getName() chính là userId
         
         NotificationPayload payload = new NotificationPayload(
             UUID.randomUUID(),
@@ -61,14 +55,9 @@ public class NotificationService {
             Instant.now(),
             request.metadata()
         );
-        
-        // Gửi đến "tên" (chính là userId) của người dùng
         messagingTemplate.convertAndSendToUser(userId, USER_QUEUE, payload);
     }
 
-    /**
-     * Gửi broadcast (giữ nguyên)
-     */
     public void sendBroadcast(ApiNotificationRequest request) {
         NotificationPayload payload = new NotificationPayload(
             UUID.randomUUID(),
@@ -81,17 +70,11 @@ public class NotificationService {
         messagingTemplate.convertAndSend("/topic/notifications", payload);
     }
     
-    /**
-     * Lấy lịch sử bằng Tên định danh (chính là userId)
-     */
+
     public List<Notification> getHistoryForUser(String userId) {
-        // Dùng phương thức Repository đã sửa
         return notificationRepository.findByRecipient_IdOrderByCreatedAtDesc(userId);
     }
-    
-    /**
-     * Đánh dấu đã đọc bằng Tên định danh (chính là userId)
-     */
+
     @Transactional
     public boolean markAsRead(String notificationId, String userId) {
         Optional<Notification> notifOpt = notificationRepository.findById(notificationId);
@@ -100,7 +83,6 @@ public class NotificationService {
         
         Notification notification = notifOpt.get();
         
-        // Kiểm tra bảo mật: So sánh ID của người nhận với userId (lấy từ Principal)
         if (!notification.getRecipient().getId().equals(userId)) {
             throw new SecurityException("User does not have permission to read this notification");
         }
