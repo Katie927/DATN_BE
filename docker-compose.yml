@@ -18,19 +18,24 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq_service
     ports:
-      - "5672:5672"
-      - "15672:15672"
-      - "61613:61613"
+      - "5673:5672"
+      - "15673:15672"
+      - "61614:61613"
     environment:
-      - RABBITMQ_DEFAULT_USER=rabbit_user
-      - RABBITMQ_DEFAULT_PASS=rabbit_pass
-      - RABBITMQ_ENABLED_PLUGINS=rabbitmq_management rabbitmq_stomp
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_ENABLED_PLUGINS: "[rabbitmq_management, rabbitmq_stomp]."
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq   # dữ liệu message queue
+    user: "999:999"
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+
 
   app:
     build: .
@@ -47,6 +52,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_USERNAME=rabbit_user
-      - SPRING_RABBITMQ_PASSWORD=rabbit_pass
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
       - SPRING_SQL_INIT_MODE=never
+
+volumes:
+  rabbitmq_data:

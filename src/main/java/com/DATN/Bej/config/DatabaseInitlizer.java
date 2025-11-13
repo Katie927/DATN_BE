@@ -43,7 +43,7 @@ public class DatabaseInitlizer implements CommandLineRunner{
         
         if (isDatabaseEmpty()) {
             System.out.println("Database is empty. Running SQL scripts...");
-            executeSqlScript("schema.sql");
+            //executeSqlScript("schema.sql");
             executeSqlScript("data.sql");
             
             //verifyDataInsertion();
