@@ -30,7 +30,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `cart_item` WRITE;
 /*!40000 ALTER TABLE `cart_item` DISABLE KEYS */;
-INSERT IGNORE INTO `cart_item` VALUES ('60c5b0ed-73a9-457d-a1e8-324da4d79695',NULL,17990000,1,'e90790cb-53e9-4698-9c48-ef1b68595c1e','6895cccc-4891-4c15-981a-e59a2d16a939','Điện thoại Gaming REDMAGIC 10 PRO','Xám Chạng Vạng','http://localhost:8080/bej3/images/redmagic-10-pro-xam-1.webp'),('a4730218-5959-4e69-a391-d6f538d65f23',NULL,24990000,1,'4fe5a207-37aa-48e4-ad07-d3efe85808d0','6895cccc-4891-4c15-981a-e59a2d16a939','iPhone 17 - Chính hãng VN/A','Xanh Mint','http://localhost:8080/bej3/images/iphone-17-mist-blue-pdp-image-position-1-mist-blue-color-vn-vi.webp'),('f67df6c1-2092-4c23-b42f-5e606c434057',NULL,24990000,2,'55fc806d-2bb8-4084-98a5-e013df320bc3','6895cccc-4891-4c15-981a-e59a2d16a939','iPhone 17 - Chính hãng VN/A','Tím Oải Hương','http://localhost:8080/bej3/images/iphone-17-lavender-pdp-image-position-1-lavender-color-vn-vi.webp');
+INSERT IGNORE INTO `cart_item` (`id`, `added_at`, `color`, `price`, `product_name`, `quantity`, `attribute_id`, `user_id`) VALUES ('60c5b0ed-73a9-457d-a1e8-324da4d79695', '2025-11-15', 'Xám Chạng Vạng', 17990000, 'Điện thoại Gaming REDMAGIC 10 PRO', 1, 'e90790cb-53e9-4698-9c48-ef1b68595c1e', '6895cccc-4891-4c15-981a-e59a2d16a939'), ('a4730218-5959-4e69-a391-d6f538d65f23', '2025-11-15', 'Xanh Mint', 24990000, 'iPhone 17 - Chính hãng VN/A', 1, '4fe5a207-37aa-48e4-ad07-d3efe85808d0', '6895cccc-4891-4c15-981a-e59a2d16a939'), ('f67df6c1-2092-4c23-b42f-5e606c434057', '2025-11-15', 'Tím Oải Hương', 24990000, 'iPhone 17 - Chính hãng VN/A', 2, '55fc806d-2bb8-4084-98a5-e013df320bc3', '6895cccc-4891-4c15-981a-e59a2d16a939');
 /*!40000 ALTER TABLE `cart_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -41,7 +41,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT IGNORE INTO `category` VALUES (10,'Điện Thoại',NULL,'DT'),(11,'Dịch Vụ',NULL,'DVV'),(12,'Phụ Kiện',NULL,'PK');
+INSERT IGNORE INTO `category` (`id`, `name`, `sku`) VALUES (10,'Điện Thoại','DT'),(11,'Dịch Vụ','DVV'),(12,'Phụ Kiện','PK');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT IGNORE INTO `order_item` VALUES ('1177a06a-52b8-4ee3-8d3c-8cdf49dc1c18',234234234,1,'b63534c6-c51b-4164-9e2c-591efb2f7ef6','4fe5a207-37aa-48e4-ad07-d3efe85808d0'),('12ce3e6f-6f24-4822-956d-d90ec8a78c99',234234234,1,'f0889d76-ac83-4fba-ac1c-d29a03aef7a2','4fe5a207-37aa-48e4-ad07-d3efe85808d0'),('1d5e9d3e-f6a2-419b-885d-b985b8849fc3',234234234,1,'f0889d76-ac83-4fba-ac1c-d29a03aef7a2','e90790cb-53e9-4698-9c48-ef1b68595c1e'),('46011f9a-5dec-456b-a662-d4abac52c45a',234234234,1,'c1828a7b-92fb-4e18-84bc-3ef957cf937f','e90790cb-53e9-4698-9c48-ef1b68595c1e'),('541d449f-9182-4966-b632-f49e0b18daa6',234234234,1,'cd39ee4a-ac3a-48a2-9057-e8476f4994b0','e90790cb-53e9-4698-9c48-ef1b68595c1e'),('59d63a6c-32ae-4d3e-b904-ce4fae2d6ebe',234234234,1,'b63534c6-c51b-4164-9e2c-591efb2f7ef6','e90790cb-53e9-4698-9c48-ef1b68595c1e'),('5abe2628-5c7c-4857-87b7-d51c71240568',234234234,1,'cd39ee4a-ac3a-48a2-9057-e8476f4994b0','4fe5a207-37aa-48e4-ad07-d3efe85808d0'),('c90a3324-40ba-4595-8d94-039915f79ba0',234234234,1,'c1828a7b-92fb-4e18-84bc-3ef957cf937f','4fe5a207-37aa-48e4-ad07-d3efe85808d0');
+INSERT IGNORE INTO `order_item` (`id`, `price`, `quantity`, `order_id`, `attribute_id`) VALUES ('1177a06a-52b8-4ee3-8d3c-8cdf49dc1c18', 234234234, 1, 'b63534c6-c51b-4164-9e2c-591efb2f7ef6', '4fe5a207-37aa-48e4-ad07-d3efe85808d0'), ('12ce3e6f-6f24-4822-956d-d90ec8a78c99', 234234234, 1, 'f0889d76-ac83-4fba-ac1c-d29a03aef7a2', '4fe5a207-37aa-48e4-ad07-d3efe85808d0'), ('1d5e9d3e-f6a2-419b-885d-b985b8849fc3', 234234234, 1, 'f0889d76-ac83-4fba-ac1c-d29a03aef7a2', 'e90790cb-53e9-4698-9c48-ef1b68595c1e'), ('46011f9a-5dec-456b-a662-d4abac52c45a', 234234234, 1, 'c1828a7b-92fb-4e18-84bc-3ef957cf937f', 'e90790cb-53e9-4698-9c48-ef1b68595c1e'), ('541d449f-9182-4966-b632-f49e0b18daa6', 234234234, 1, 'cd39ee4a-ac3a-48a2-9057-e8476f4994b0', 'e90790cb-53e9-4698-9c48-ef1b68595c1e'), ('59d63a6c-32ae-4d3e-b904-ce4fae2d6ebe', 234234234, 1, 'b63534c6-c51b-4164-9e2c-591efb2f7ef6', 'e90790cb-53e9-4698-9c48-ef1b68595c1e'), ('5abe2628-5c7c-4857-87b7-d51c71240568', 234234234, 1, 'cd39ee4a-ac3a-48a2-9057-e8476f4994b0', '4fe5a207-37aa-48e4-ad07-d3efe85808d0'), ('c90a3324-40ba-4595-8d94-039915f79ba0', 234234234, 1, 'c1828a7b-92fb-4e18-84bc-3ef957cf937f', '4fe5a207-37aa-48e4-ad07-d3efe85808d0');
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT IGNORE INTO `orders` VALUES ('b63534c6-c51b-4164-9e2c-591efb2f7ef6','Hn','giao hang','adu112@gmail.com','2025-11-10','01234123413',0,NULL,'6895cccc-4891-4c15-981a-e59a2d16a939'),('c1828a7b-92fb-4e18-84bc-3ef957cf937f','Hn','giao hang','adu112@gmail.com','2025-11-09','01234123413',0,NULL,'6895cccc-4891-4c15-981a-e59a2d16a939'),('cd39ee4a-ac3a-48a2-9057-e8476f4994b0','Hn','giao hang','adu112@gmail.com','2025-11-10','01234123413',0,NULL,'6895cccc-4891-4c15-981a-e59a2d16a939'),('f0889d76-ac83-4fba-ac1c-d29a03aef7a2','Hn','giao hang','adu112@gmail.com','2025-11-09','01234123413',0,NULL,'6895cccc-4891-4c15-981a-e59a2d16a939');
+INSERT IGNORE INTO `orders` (`id`, `address`, `description`, `email`, `order_at`, `phone_number`, `status`, `total_price`, `type`, `updated_at`, `user_id`) VALUES ('b63534c6-c51b-4164-9e2c-591efb2f7ef6', 'Hn', 'giao hang', 'adu112@gmail.com', '2025-11-10', '01234123413', 0, 468468468, 0, '2025-11-10', '6895cccc-4891-4c15-981a-e59a2d16a939'), ('c1828a7b-92fb-4e18-84bc-3ef957cf937f', 'Hn', 'giao hang', 'adu112@gmail.com', '2025-11-09', '01234123413', 0, 234234234, 0, '2025-11-09', '6895cccc-4891-4c15-981a-e59a2d16a939'), ('cd39ee4a-ac3a-48a2-9057-e8476f4994b0', 'Hn', 'giao hang', 'adu112@gmail.com', '2025-11-10', '01234123413', 0, 234234234, 0, '2025-11-10', '6895cccc-4891-4c15-981a-e59a2d16a939'), ('f0889d76-ac83-4fba-ac1c-d29a03aef7a2', 'Hn', 'giao hang', 'adu112@gmail.com', '2025-11-09', '01234123413', 0, 468468468, 0, '2025-11-09', '6895cccc-4891-4c15-981a-e59a2d16a939');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `work_schedule` WRITE;
 /*!40000 ALTER TABLE `work_schedule` DISABLE KEYS */;
-INSERT IGNORE INTO `work_schedule` VALUES ('21f9f857-b1e1-4f01-b17a-2461e119ddb4','2025-11-12',1,NULL),('80a11c40-d34c-4b11-aee1-c008580f06a6','2025-11-08',1,NULL),('8233fff7-19ee-4495-993c-98c87a52d5f9','2025-11-13',1,NULL),('dab0a215-7455-4b8f-b777-8992202799a9','2025-11-19',1,NULL);
+INSERT IGNORE INTO `work_schedule` (`id`, `work_date`, `shift_id`) VALUES ('21f9f857-b1e1-4f01-b17a-2461e119ddb4', '2025-11-12', 1), ('80a11c40-d34c-4b11-aee1-c008580f06a6', '2025-11-08', 1), ('8233fff7-19ee-4495-993c-98c87a52d5f9', '2025-11-13', 1), ('dab0a215-7455-4b8f-b777-8992202799a9', '2025-11-19', 1);
 /*!40000 ALTER TABLE `work_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 

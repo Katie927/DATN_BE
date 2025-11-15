@@ -53,17 +53,15 @@ public class DatabaseInitlizer implements CommandLineRunner{
 
     private boolean isDatabaseEmpty() {
         try {
-            Integer roleCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM role", Integer.class);
-            Integer userCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM user", Integer.class);
+            Integer productCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM product", Integer.class);
             
-            System.out.println("Existing roles count: " + roleCount);
-            System.out.println("Existing users count: " + userCount);
+            System.out.println("Existing products count: " + productCount);
             
-            return (roleCount == null || roleCount == 0) && 
-                   (userCount == null || userCount == 0);
+            // Chỉ seed data nếu KHÔNG có sản phẩm
+            return (productCount == null || productCount == 0);
             
         } catch (Exception e) {
-            System.out.println("Tables don't exist. Database is empty.");
+            System.out.println("Tables don't exist or error checking database. Assuming empty.");
             return true;
         }
     }

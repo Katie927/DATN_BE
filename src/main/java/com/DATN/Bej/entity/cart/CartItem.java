@@ -1,7 +1,6 @@
 package com.DATN.Bej.entity.cart;
 
 import com.DATN.Bej.entity.identity.User;
-import com.DATN.Bej.entity.product.Product;
 import com.DATN.Bej.entity.product.ProductAttribute;
 import jakarta.persistence.*;
 import lombok.*;
